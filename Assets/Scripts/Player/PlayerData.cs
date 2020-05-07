@@ -6,40 +6,29 @@ using Random = UnityEngine.Random;
 
 public class PlayerData
 {
+    private List<ItemData> inventory;
+    private float Lucht = 100;
+
     public PlayerData()
     {
+        inventory = new List<ItemData>();
     }
-}
 
 
-public class temp : MonoBehaviour
-{
-    [SerializeField] private String[] SpawnLocations;
-    private List<SpawnPoint> SelectedLocations = new List<SpawnPoint>();
-    private int ItemCount = 3;
-
-    private void Start()
+    public List<ItemData> getinventory()
     {
-        if (ItemCount > SpawnLocations.Length)
-        {
-            Debug.LogError("Teveel items met te weinig spawn locations!");
-            return;
-        }
+        return this.inventory;
+    }
 
-        for (int i = 0; i < ItemCount; i++)
+    public float lucht
+    {
+        get { return Lucht; }
+        set
         {
-            int random = Random.Range(0, ItemCount);
-            SelectedLocations.Add(SpawnLocations[random]);
-            SpawnLocations[random] = null;
-
-            spawnItmes();
-        }
-
-        private void spawnItmes()
-        {
-            for (int i = 0; i < SelectedLocations.Count; i++)
+            if (lucht >= 0)
             {
-                // spawn de objects.
+                Lucht = value;
             }
         }
     }
+}

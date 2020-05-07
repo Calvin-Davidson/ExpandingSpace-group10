@@ -7,6 +7,8 @@ public class movement : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;
 
+    [SerializeField] private ParticleSystem[] DoubleJumpSmokes;
+
     [SerializeField] public int jumpCount = 0;
     [SerializeField] private float speed = 8;
     [SerializeField] private float JumpHeight = 8;
@@ -14,6 +16,11 @@ public class movement : MonoBehaviour
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        
+        foreach (var doubleJumpSmoke in DoubleJumpSmokes)
+        {
+            doubleJumpSmoke.Stop();
+        }
     }
 
     void Update()
@@ -29,6 +36,15 @@ public class movement : MonoBehaviour
             {
                 _rigidbody2D.velocity = (new Vector2(_rigidbody2D.velocity.x, JumpHeight));
                 jumpCount += 1;
+
+                if (jumpCount == 2)
+                {
+                    foreach (var doubleJumpSmoke in DoubleJumpSmokes)
+                    {
+                        doubleJumpSmoke.Play();
+                        StartCoroutine(removeSmoke());
+                    }
+                }
             }
         }
 
@@ -40,6 +56,15 @@ public class movement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             _rigidbody2D.velocity = (new Vector2(speed, _rigidbody2D.velocity.y));
+        }
+    }
+
+    public IEnumerator removeSmoke()
+    {
+        yield return new WaitForSeconds(0.2f);
+        foreach (var doubleJumpSmoke in DoubleJumpSmokes)
+        {
+            doubleJumpSmoke.Stop();
         }
     }
 }
