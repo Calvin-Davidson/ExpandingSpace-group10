@@ -5951,7 +5951,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 14.311935
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5975,7 +5975,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374055246}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.49338084, y: 0.0038745604, z: -10}
+  m_LocalPosition: {x: 0.49338084, y: 0.0038745604, z: -13.36}
   m_LocalScale: {x: 0.991521, y: 0.5031896, z: 1}
   m_Children: []
   m_Father: {fileID: 586274493}
@@ -6323,7 +6323,6 @@ GameObject:
   - component: {fileID: 586274492}
   - component: {fileID: 586274491}
   - component: {fileID: 586274490}
-  - component: {fileID: 586274494}
   - component: {fileID: 586274495}
   - component: {fileID: 586274498}
   - component: {fileID: 586274497}
@@ -6421,32 +6420,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &586274494
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 586274489}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &586274495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6462,9 +6435,6 @@ MonoBehaviour:
   DoubleJumpSmokes:
   - {fileID: 801439080}
   - {fileID: 142008172}
-  moveLeftParticle: []
-  moveRightParticle: []
-  moveDownParticle: []
   speed: 3
   JumpHeight: 5
   inAir: 1
@@ -14018,7 +13988,9 @@ PolygonCollider2D:
       - {x: 4.27, y: 3}
       - {x: 4.11, y: 3.05}
       - {x: 3.72, y: 3.07}
-      - {x: 2.6399999, y: 3.07}
+      - {x: 2.6493244, y: 3.090754}
+      - {x: 2.6575124, y: 3.0855427}
+      - {x: 2.6119423, y: 3.1164036}
       - {x: 2.32, y: 3.25}
       - {x: 2.11, y: 3.3}
       - {x: 1.6899999, y: 3.3}
@@ -14129,7 +14101,10 @@ PolygonCollider2D:
       - {x: 0.95, y: 2.7}
       - {x: 1.36, y: 2.9299998}
       - {x: 1.42, y: 2.97}
+      - {x: 1.4231572, y: 2.0898771}
+      - {x: 2.130037, y: 2.5178192}
       - {x: 2.3799999, y: 2.96}
+      - {x: 2.470049, y: 2.4770813}
       - {x: 2.74, y: 2.79}
       - {x: 2.84, y: 2.71}
       - {x: 2.9299998, y: 2.6499999}

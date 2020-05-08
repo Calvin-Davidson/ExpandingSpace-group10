@@ -18,10 +18,11 @@ namespace meteorieten
             
             Destroy(this.gameObject, 30);
         }
+
         void Update()
         {
-            transform.position = new Vector2(transform.position.x -speedX*Time.deltaTime, transform.position.y -speedY*Time.deltaTime);
+            transform.position = new Vector2(transform.position.x - speedX * Time.deltaTime,
+                transform.position.y - speedY * Time.deltaTime);
         }
-    
     }
 }
