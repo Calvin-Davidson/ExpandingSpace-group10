@@ -1,33 +1,35 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Items;
 using UnityEngine;
 
-public class ItemPickup : MonoBehaviour
+namespace Player
 {
-    private List<ItemData> playerInventory;
-
-    private void Start()
+    public class ItemPickup : MonoBehaviour
     {
-        if (GetComponent<PlayerManager>() == null)
+        private List<ItemData> playerInventory;
+
+        private void Start()
         {
-            Debug.Log("PlayerManager");
+            if (GetComponent<PlayerManager>() == null)
+            {
+                Debug.Log("PlayerManager");
+            }
+
+            if (GetComponent<PlayerManager>().GetPlayerData() == null)
+            {
+                Debug.Log("PlayerData");
+            }
+            playerInventory = GetComponent<PlayerManager>().GetPlayerData().getinventory();
         }
 
-        if (GetComponent<PlayerManager>().GetPlayerData() == null)
-        {
-            Debug.Log("PlayerData");
-        }
-        playerInventory = GetComponent<PlayerManager>().GetPlayerData().getinventory();
-    }
 
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "PickupItem")
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            playerInventory.Add(other.gameObject.GetComponent<ItemData>());
-            Destroy(other.gameObject);
+            if (other.gameObject.tag == "PickupItem")
+            {
+                playerInventory.Add(other.gameObject.GetComponent<ItemData>());
+                Destroy(other.gameObject);
+            }
         }
     }
 }

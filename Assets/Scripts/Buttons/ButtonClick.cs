@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ButtonClick : MonoBehaviour
+namespace Buttons
 {
-
-    public void StartButtonClick()
+    public class ButtonClick : MonoBehaviour
     {
-        SceneManager.LoadScene(1);
+
+        public void StartButtonClick()
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }

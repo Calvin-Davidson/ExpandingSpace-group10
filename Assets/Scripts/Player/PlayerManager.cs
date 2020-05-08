@@ -1,45 +1,46 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerManager : MonoBehaviour
+namespace Player
 {
-    private PlayerData _playerData;
-
-    private void Awake()
+    public class PlayerManager : MonoBehaviour
     {
-        _playerData = new PlayerData();
-    }
+        private PlayerData _playerData;
 
-    private void Start()
-    {
-        StartCoroutine(Loop());
-    }
+        private void Awake()
+        {
+            _playerData = new PlayerData();
+        }
 
-
-    public PlayerData GetPlayerData()
-    {
-        return this._playerData;
-    }
-
-    private IEnumerator Loop()
-    {
-        yield return new WaitForSeconds(1);
-
-        this._playerData.lucht -= 1;
+        private void Start()
+        {
+            StartCoroutine(Loop());
+        }
 
 
-        if (this._playerData.lucht < 0) PlayerDie();
+        public PlayerData GetPlayerData()
+        {
+            return this._playerData;
+        }
+
+        private IEnumerator Loop()
+        {
+            yield return new WaitForSeconds(1);
+
+            this._playerData.lucht -= 1;
+
+
+            if (this._playerData.lucht < 0) PlayerDie();
         
         
-        StartCoroutine(Loop());
-    }
+            StartCoroutine(Loop());
+        }
 
-    public void PlayerDie()
-    {
-        // Load deathscreen.
-        SceneManager.LoadScene(2);
+        public void PlayerDie()
+        {
+            // Load deathscreen.
+            SceneManager.LoadScene(2);
+        }
     }
 }

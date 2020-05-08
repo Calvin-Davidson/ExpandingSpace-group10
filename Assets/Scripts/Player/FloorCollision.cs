@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FloorCollision : MonoBehaviour
+namespace Player
 {
-    private movement mv;
-
-    private void Start()
+    public class FloorCollision : MonoBehaviour
     {
-        mv = GetComponentInParent<movement>();
-    }
+        private movement mv;
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        Debug.Log("floor collision");
-        mv.jumpCount = 0;
+        private void Start()
+        {
+            mv = GetComponentInParent<movement>();
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            mv.jumpCount = 0;
+        }
     }
 }

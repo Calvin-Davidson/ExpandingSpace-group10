@@ -1,20 +1,23 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ToMainScreenTimer : MonoBehaviour
+namespace Deathscreen
 {
-    public float WaitingTime = 10f;
-    void Start()
+    public class ToMainScreenTimer : MonoBehaviour
     {
-        timer();
-    }
+        public float WaitingTime = 10f;
 
-    public IEnumerator timer()
-    {
-        yield return new WaitForSeconds(WaitingTime);
+        void Start()
+        {
+            StartCoroutine(timer());
+        }
 
-        SceneManager.LoadScene(0);
+        public IEnumerator timer()
+        {
+            yield return new WaitForSeconds(WaitingTime);
+
+            SceneManager.LoadScene(0);
+        }
     }
 }

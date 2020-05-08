@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ItemData : MonoBehaviour
+namespace Items
 {
-    [SerializeField] private string UIiconGameObjectName;
-
-    public string getUIgameobjectName()
+    public class ItemData : MonoBehaviour
     {
-        return this.UIiconGameObjectName;
+        [SerializeField] private string UIiconGameObjectName;
+
+        public string getUIgameobjectName()
+        {
+            return this.UIiconGameObjectName;
+        }
     }
 }

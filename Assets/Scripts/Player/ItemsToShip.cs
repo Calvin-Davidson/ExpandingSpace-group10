@@ -1,47 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Items;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
-public class ItemsToShip : MonoBehaviour
+namespace Player
 {
-    private List<ItemData> PlayerInventory;
-
-    [SerializeField] private GameObject[] items;
-
-    private void Start()
+    public class ItemsToShip : MonoBehaviour
     {
-        if (GetComponent<PlayerManager>() == null)
+        private List<ItemData> PlayerInventory;
+        private PlayerManager _playerManager;
+
+        [SerializeField] private GameObject[] items;
+
+        private void Start()
         {
-            Debug.Log("PlayerManager");
+            _playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
+            if (GetComponent<PlayerManager>() == null)
+            {
+                Debug.Log("PlayerManager");
+            }
+        
+            PlayerInventory = _playerManager.GetPlayerData().getinventory();
         }
 
-        PlayerInventory = GetComponent<PlayerManager>().GetPlayerData().getinventory();
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.name == "SPACE_STATION" || other.gameObject.tag == "SPACE_STATION")
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            GetComponent<PlayerManager>().GetPlayerData().lucht = 100;
-            
-            foreach (ItemData itemData in PlayerInventory)
+            if (other.gameObject.name == "SPACE_STATION" || other.gameObject.tag == "SPACE_STATION")
             {
-                GameObject g = GameObject.Find(itemData.getUIgameobjectName());
-                if (g != null)
+                _playerManager.GetPlayerData().lucht = 100;
+            
+                foreach (ItemData itemData in PlayerInventory)
                 {
-                    g.GetComponent<Image>().enabled = (true);
+                    GameObject g = GameObject.Find(itemData.getUIgameobjectName());
+                    if (g != null)
+                    {
+                        g.GetComponent<Image>().enabled = (true);
+                    }
+                    else
+                    {
+                        Debug.LogError("Gameobject not found required name: " + itemData.getUIgameobjectName());
+                    }
                 }
-                else
-                {
-                    Debug.LogError("Gameobject not found required name: " + itemData.getUIgameobjectName());
-                }
-            }
 
-            // cleared de PlayerInventory
-            PlayerInventory.Clear();
+                // cleared de PlayerInventory
+                PlayerInventory.Clear();
+            }
         }
     }
 }

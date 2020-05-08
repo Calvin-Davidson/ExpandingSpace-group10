@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SpawnPoint : MonoBehaviour
+namespace Items
 {
-    public Vector2 GetSpawnPosition()
+    public class SpawnPoint : MonoBehaviour
     {
-        return transform.position;
+        public Vector2 GetSpawnPosition()
+        {
+            return transform.position;
+        }
     }
 }

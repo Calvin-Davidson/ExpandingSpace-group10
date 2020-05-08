@@ -1,33 +1,33 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using System.Collections.Generic;
+using Items;
 
-public class PlayerData
+namespace Player
 {
-    private List<ItemData> inventory;
-    private float Lucht = 100;
-
-    public PlayerData()
+    public class PlayerData
     {
-        inventory = new List<ItemData>();
-    }
+        private List<ItemData> inventory;
+        private float Lucht = 100;
 
-
-    public List<ItemData> getinventory()
-    {
-        return this.inventory;
-    }
-
-    public float lucht
-    {
-        get { return Lucht; }
-        set
+        public PlayerData()
         {
-            if (lucht >= 0)
+            inventory = new List<ItemData>();
+        }
+
+
+        public List<ItemData> getinventory()
+        {
+            return this.inventory;
+        }
+
+        public float lucht
+        {
+            get { return Lucht; }
+            set
             {
-                Lucht = value;
+                if (lucht >= 0)
+                {
+                    Lucht = value;
+                }
             }
         }
     }
