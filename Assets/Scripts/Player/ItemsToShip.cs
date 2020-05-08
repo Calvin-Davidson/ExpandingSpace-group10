@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Items;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Image = UnityEngine.UI.Image;
 
 namespace Player
@@ -10,10 +11,16 @@ namespace Player
         private List<ItemData> PlayerInventory;
         private PlayerManager _playerManager;
 
+        private int requiredItems = 0;
+
+        private int foundItems = 0;
+
         [SerializeField] private GameObject[] items;
 
         private void Start()
         {
+            requiredItems = GameObject.Find("ItemSpawner").GetComponent<ItemSpawner>().getSpawnItemsCounts();
+            
             _playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
             if (GetComponent<PlayerManager>() == null)
             {
@@ -35,6 +42,7 @@ namespace Player
                     if (g != null)
                     {
                         g.GetComponent<Image>().enabled = (true);
+                        foundItems += 1;
                     }
                     else
                     {
@@ -44,6 +52,12 @@ namespace Player
 
                 // cleared de PlayerInventory
                 PlayerInventory.Clear();
+            }
+
+            if (foundItems >= requiredItems)
+            {
+                // Als je wint
+                SceneManager.LoadScene(3);
             }
         }
     }

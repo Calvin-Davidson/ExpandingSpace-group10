@@ -5,7 +5,6 @@ namespace Buttons
 {
     public class ButtonClick : MonoBehaviour
     {
-
         public void StartButtonClick()
         {
             SceneManager.LoadScene(1);

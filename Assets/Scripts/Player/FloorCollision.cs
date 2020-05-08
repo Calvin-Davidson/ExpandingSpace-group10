@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Player
 {
@@ -13,7 +14,12 @@ namespace Player
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            mv.jumpCount = 0;
+            mv.inAir = false;
+        }
+
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            mv.inAir = true;
         }
     }
 }
