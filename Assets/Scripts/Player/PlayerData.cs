@@ -5,8 +5,10 @@ namespace Player
 {
     public class PlayerData
     {
+        public PlayerManager playermanager;
         private List<ItemData> inventory;
         private float Lucht = 100;
+        private int Health = 2;
 
         public PlayerData()
         {
@@ -17,6 +19,21 @@ namespace Player
         public List<ItemData> getinventory()
         {
             return this.inventory;
+        }
+
+        public void TakeDamage(int value)
+        {
+            this.Health -= value;
+        }
+
+        public void AddHealth(int value)
+        {
+            this.Health += value;
+        }
+
+        public int getHealth()
+        {
+            return this.Health;
         }
 
         public float lucht

@@ -30,10 +30,9 @@ namespace Player
 
             this._playerData.lucht -= 1;
 
-
             if (this._playerData.lucht < 0) PlayerDie();
-        
-        
+            if (this._playerData.getHealth() < 0) PlayerDie();
+
             StartCoroutine(Loop());
         }
 

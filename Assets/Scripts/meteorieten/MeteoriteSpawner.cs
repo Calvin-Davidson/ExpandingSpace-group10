@@ -6,23 +6,23 @@ namespace meteorieten
     public class MeteoriteSpawner : MonoBehaviour
     {
         public GameObject[] asteroidObjects;
-        private Vector2 screenBounds;
+        public GameObject player;
         [SerializeField] private float heightThreshold = 5;
+        private Vector2 tempPos;
 
-        private Camera cam;
+        
 
         void Start()
         {
-            cam = Camera.main;
+            
             StartCoroutine(waiter());
         }
 
         private void spawnMeteor()
         {
-            screenBounds = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
+            tempPos = new Vector2(player.transform.position.x, player.transform.position.y);
             GameObject a = Instantiate(asteroidObjects[Random.Range(0, asteroidObjects.Length)]) as GameObject;
-            a.transform.position = new Vector2(screenBounds.x * 2,
-                Random.Range(-screenBounds.y + heightThreshold, screenBounds.y));
+            a.transform.position = new Vector2(tempPos.x + 20, Random.Range(tempPos.y+1, tempPos.y+3));
             StartCoroutine(waiter());
         }
 
