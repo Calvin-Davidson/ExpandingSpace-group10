@@ -59,5 +59,10 @@ namespace Items
                 array[k] = temp;
             }
         }
+        
+        public int getSpawnItemsCounts()
+        {
+            return this.ItemsToSpawn.Length;
+        }
     }
 }

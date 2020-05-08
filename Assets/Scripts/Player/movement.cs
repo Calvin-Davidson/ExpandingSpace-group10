@@ -33,7 +33,7 @@ namespace Player
                 PlayerTexture.transform.localScale = new Vector2(0.5521979f, PlayerTexture.transform.localScale.y);
             }
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
             {
                 if (jumpCount < 2) 
                 {
