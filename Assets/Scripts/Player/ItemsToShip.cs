@@ -19,8 +19,6 @@ namespace Player
 
         private void Start()
         {
-            requiredItems = GameObject.Find("ItemSpawner").GetComponent<ItemSpawner>().getSpawnItemsCounts();
-            
             _playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
             if (GetComponent<PlayerManager>() == null)
             {
@@ -46,7 +44,7 @@ namespace Player
                     }
                     else
                     {
-                        Debug.LogError("Gameobject not found required name: " + itemData.getUIgameobjectName());
+                        Debug.LogWarning("Gameobject not found required name: " + itemData.getUIgameobjectName());
                     }
                 }
 
@@ -54,7 +52,7 @@ namespace Player
                 PlayerInventory.Clear();
             }
 
-            if (foundItems >= requiredItems)
+            if (foundItems >= 4)
             {
                 // Als je wint
                 SceneManager.LoadScene(3);

@@ -60,7 +60,7 @@ namespace Items
             }
         }
         
-        public int getSpawnItemsCounts()
+        public int getItemCount()
         {
             return this.ItemsToSpawn.Length;
         }

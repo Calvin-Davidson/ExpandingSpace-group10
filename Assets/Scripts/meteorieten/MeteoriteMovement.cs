@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace meteorieten
 {
     public class MeteoriteMovement : MonoBehaviour
     {
-        private Vector2 screenBounds;
         [SerializeField] private float speedX;
         [SerializeField] private float speedY;
 
@@ -12,12 +13,12 @@ namespace meteorieten
 
         private void Start()
         {
-            speedX = Random.Range(5, 15);
-            speedY = Random.Range(0.5f, 2f);
-            screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-            
+            speedX = Random.Range(55, 85);
+            speedY = Random.Range(5.5f, 8f);
+
             Destroy(this.gameObject, 30);
         }
+        
 
         void Update()
         {
