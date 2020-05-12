@@ -52,11 +52,6 @@ public class PlanetGravity : MonoBehaviour
                 set.Value.GetComponent<MeshRenderer>().material.color = Color.black;
             }
         }
-
-        if (!(found))
-        {
-            _playerRigid.gravityScale = 0.2f;
-        }
     }
 
     public Dictionary<GameObject, PlanetData> getPlanets()

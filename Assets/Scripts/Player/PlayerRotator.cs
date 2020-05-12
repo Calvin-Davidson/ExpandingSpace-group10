@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -11,82 +13,82 @@ namespace Player
     public class PlayerRotator : MonoBehaviour
     {
         [SerializeField] private LayerMask CanHit;
-        private Camera mainCam;
-        private PlanetGravity _planetGravity;
 
-        private List<Rotation_prop> _rotationProps = new List<Rotation_prop>();
+        // private List<Rotation_prop> _rotationProps = new List<Rotation_prop>();
+        // private Rotation_prop _closest_rotationProp;
 
-        private Rotation_prop _closest_rotationProp;
+        private List<Vector2> RayCastPositions = new List<Vector2>();
+        private Vector3 lastPlayerPos = Vector3.zero;
 
-        private float StartTime;
+        private GameObject debugObg;
+
+        private int Points = 64;
+
         private void Start()
         {
-            StartTime = Time.time;
-            mainCam = Camera.main;
-            _planetGravity = GetComponent<PlanetGravity>();
+            debugObg = GameObject.Find("DebugSphere");
 
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Rotation_prop"))
+            lastPlayerPos = transform.position;
+
+            double slice = 2 * Math.PI / Points;
+            for (int i = 0; i < Points; i++)
             {
-                Rotation_prop rp = obj.GetComponent<Rotation_prop>();
-                if (rp != null)
-                {
-                    _rotationProps.Add(rp);
-                }
-                else
-                {
-                    Debug.LogWarning("Gameobject " + obj.name + " is een rotation prop maar heeft niet de script!");
-                }
+                float angle = (float) slice * i;
+
+                float newX = (transform.position.x + 50 * Mathf.Cos(angle));
+                float newY = (transform.position.y + 50 * Mathf.Sin(angle));
+
+                RayCastPositions.Add(new Vector3(newX, newY));
             }
         }
 
-        private void Update()
+        void Update()
         {
-            // Verkrijgt de rotation prop die het closest is.
-            Rotation_prop tempRot = null;
-            if (_rotationProps.Count != 0)
-            {
-                for (int i = 0; i < _rotationProps.Count; i++)
-                {
-                    _rotationProps[i].GetComponent<MeshRenderer>().material.color = Color.blue;
-                    if (tempRot == null)
-                    {
-                        tempRot = _rotationProps[i];
-                    }
-                    else
-                    {
-                        float Distance = Vector2.Distance(_rotationProps[i].getPos(), transform.position);
+            // Verkrijg waar ik heen moet roteren.
 
-                        if (Vector2.Distance(tempRot.getPos(), transform.position) >= Distance && Distance < 10.5f)
-                        {
-                            tempRot = _rotationProps[i];
-                        }
+            Vector3 hitPoint = Vector3.zero;
+            float ClosestDistance = 1000;
+
+            float diffX = lastPlayerPos.x - transform.position.x;
+            float diffY = lastPlayerPos.y - transform.position.y;
+
+            int closestI = 0;
+
+            for (int i = 0; i < RayCastPositions.Count; i++)
+            {
+                RayCastPositions[i].Set(RayCastPositions[i].x - diffX, RayCastPositions[i].y - diffY);
+
+                float newX = RayCastPositions[i].x;
+                float newY = RayCastPositions[i].y;
+
+                //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(newX, newY, 0), Mathf.Infinity);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(newX, newY, 0), Mathf.Infinity,
+                    LayerMask.GetMask("Walkable"));
+
+                // If it hits something...
+                if (hit.collider)
+                {
+                    //Debug.DrawRay(transform.position, new Vector3(newX, newY, 0), Color.red);
+
+                    float dist = Vector2.Distance(hit.point, transform.position);
+                    if (dist < ClosestDistance)
+                    {
+                        ClosestDistance = dist;
+                        closestI = i;
                     }
+                }
+                else
+                {
+                    //Debug.DrawRay(transform.position, new Vector3(newX, newY, 0), Color.blue);
                 }
             }
 
-            if (tempRot != null && Vector2.Distance(tempRot.getPos(), transform.position) < 10.5f)
-            {
-                _closest_rotationProp = tempRot;
-            }
-            else
-            {
-                Debug.Log( Vector2.Distance(tempRot.getPos(), transform.position));
-                return;
-            }
+            debugObg.transform.position = hitPoint;
 
-            Debug.Log(_closest_rotationProp.getVectorRotation());
-            // transform.rotation = Quaternion.Euler(UnityEngine.Vector3.Lerp(transform.eulerAngles,
-            //     _closest_rotationProp.getVectorRotation(), 0.1f * Time.deltaTime));
-
-            transform.rotation =
-                Quaternion.RotateTowards(transform.rotation,
-                    Quaternion.Euler(_closest_rotationProp.getVectorRotation()), 360);
-
-            //float time = (Time.time - StartTime) / 1f;
-            // float time = 2;
-            // transform.rotation = Quaternion.Euler(Vector3.Slerp(transform.rotation.eulerAngles, _closest_rotationProp.getVectorRotation(), time));
-            //
-            _closest_rotationProp.GetComponent<MeshRenderer>().material.color = Color.red;
+            print("ClosestI: " + closestI);
+            print("Rotation: " + ((360 / 64) * closestI + 90));
+            Debug.DrawRay(transform.position, RayCastPositions[closestI], Color.red);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, (360 / 64 * closestI + 90))), 10 * Time.deltaTime);
         }
     }
 }
