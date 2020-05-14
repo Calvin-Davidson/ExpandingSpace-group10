@@ -28,7 +28,7 @@ namespace Player
         {
             yield return new WaitForSeconds(1);
 
-            this._playerData.lucht -= 1;
+            this._playerData.lucht -= 2.2f;
 
             if (this._playerData.lucht < 0) PlayerDie();
             if (this._playerData.getHealth() < 0) PlayerDie();

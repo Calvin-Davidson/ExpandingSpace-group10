@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Items;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -45,6 +47,8 @@ namespace Player
                 {
                     Lucht = value;
                 }
+
+                GameObject.Find("Air_slider").GetComponent<Slider>().value = (float) lucht / 100;
             }
         }
     }

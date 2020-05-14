@@ -16,15 +16,12 @@ namespace Player
         private int foundItems = 0;
 
         [SerializeField] private GameObject[] items;
+        [SerializeField] private Sprite[] sprites;
 
         private void Start()
         {
             _playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
-            if (GetComponent<PlayerManager>() == null)
-            {
-                Debug.Log("PlayerManager");
-            }
-        
+            
             PlayerInventory = _playerManager.GetPlayerData().getinventory();
         }
 
@@ -33,13 +30,13 @@ namespace Player
             if (other.gameObject.name == "SPACE_STATION" || other.gameObject.tag == "SPACE_STATION")
             {
                 _playerManager.GetPlayerData().lucht = 100;
-            
+                
                 foreach (ItemData itemData in PlayerInventory)
                 {
                     GameObject g = GameObject.Find(itemData.getUIgameobjectName());
                     if (g != null)
                     {
-                        g.GetComponent<Image>().enabled = (true);
+                        g.GetComponent<Image>().sprite = itemData.getFoundSprite();
                         foundItems += 1;
                     }
                     else

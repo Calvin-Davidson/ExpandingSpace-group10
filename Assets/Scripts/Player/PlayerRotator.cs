@@ -12,20 +12,21 @@ namespace Player
 {
     public class PlayerRotator : MonoBehaviour
     {
-        [SerializeField] private LayerMask CanHit;
-
-        // private List<Rotation_prop> _rotationProps = new List<Rotation_prop>();
-        // private Rotation_prop _closest_rotationProp;
-
         private List<Vector2> RayCastPositions = new List<Vector2>();
         private Vector3 lastPlayerPos = Vector3.zero;
 
         private GameObject debugObg;
 
-        private int Points = 64;
+        private int Points = 128;
+        [SerializeField] private float RaycastLenght = 15;
+
+        private Vector2 lastHit;
+        private Rigidbody2D _playerRigid;
 
         private void Start()
         {
+            _playerRigid = GetComponent<Rigidbody2D>();
+
             debugObg = GameObject.Find("DebugSphere");
 
             lastPlayerPos = transform.position;
@@ -35,24 +36,27 @@ namespace Player
             {
                 float angle = (float) slice * i;
 
-                float newX = (transform.position.x + 50 * Mathf.Cos(angle));
-                float newY = (transform.position.y + 50 * Mathf.Sin(angle));
+                float newX = (transform.position.x + 25 * Mathf.Cos(angle));
+                float newY = (transform.position.y + 25 * Mathf.Sin(angle));
 
                 RayCastPositions.Add(new Vector3(newX, newY));
             }
+
+            lastHit = Vector2.zero;
         }
 
         void Update()
         {
+            lastHit = Vector2.zero;
             // Verkrijg waar ik heen moet roteren.
 
-            Vector3 hitPoint = Vector3.zero;
+
             float ClosestDistance = 1000;
 
             float diffX = lastPlayerPos.x - transform.position.x;
             float diffY = lastPlayerPos.y - transform.position.y;
 
-            int closestI = 0;
+            int closestI = -1;
 
             for (int i = 0; i < RayCastPositions.Count; i++)
             {
@@ -61,34 +65,47 @@ namespace Player
                 float newX = RayCastPositions[i].x;
                 float newY = RayCastPositions[i].y;
 
-                //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(newX, newY, 0), Mathf.Infinity);
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(newX, newY, 0), Mathf.Infinity,
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(newX, newY, 0), RaycastLenght,
                     LayerMask.GetMask("Walkable"));
 
                 // If it hits something...
-                if (hit.collider)
+                if (hit.collider && hit.collider.gameObject)
                 {
-                    //Debug.DrawRay(transform.position, new Vector3(newX, newY, 0), Color.red);
+                    Debug.DrawRay(transform.position, new Vector3(newX, newY, 0), Color.red);
 
                     float dist = Vector2.Distance(hit.point, transform.position);
                     if (dist < ClosestDistance)
                     {
                         ClosestDistance = dist;
                         closestI = i;
+                        lastHit = hit.point;
                     }
                 }
                 else
                 {
-                    //Debug.DrawRay(transform.position, new Vector3(newX, newY, 0), Color.blue);
+                    Debug.DrawRay(transform.position, new Vector3(newX, newY, 0), Color.blue);
                 }
             }
 
-            debugObg.transform.position = hitPoint;
+            if (closestI != -1)
+            {
+                debugObg.transform.position = lastHit;
 
-            print("ClosestI: " + closestI);
-            print("Rotation: " + ((360 / 64) * closestI + 90));
-            Debug.DrawRay(transform.position, RayCastPositions[closestI], Color.red);
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, (360 / 64 * closestI + 90))), 10 * Time.deltaTime);
+                double rotationZ = ((double) 360 / Points) * closestI + 90;
+                Debug.DrawRay(transform.position, RayCastPositions[closestI], Color.red);
+                transform.rotation = Quaternion.Lerp(transform.rotation,
+                    Quaternion.Euler(new Vector3(0, 0, float.Parse(rotationZ.ToString()))), 50 * Time.deltaTime);
+            }
+            
+            if (lastHit != Vector2.zero)
+            {
+                _playerRigid.AddForce(-(new Vector2(transform.position.x - lastHit.x,
+                    transform.position.y - lastHit.y) * 8));
+            }
+            else
+            {
+                transform.Rotate(new Vector3(0, 0, 10 * Time.deltaTime));
+            }
         }
     }
 }
