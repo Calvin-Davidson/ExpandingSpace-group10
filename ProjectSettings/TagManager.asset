@@ -9,7 +9,8 @@ TagManager:
   - planet
   - meteoriet
   - WalkableFloor
-  - Rotation_prop
+  - PlayerInAir
+  - Item_Spawn_location
   layers:
   - Default
   - TransparentFX

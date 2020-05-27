@@ -17,12 +17,24 @@ public class PlanetGravity : MonoBehaviour
             {
                 if (set.Key && set.Value)
                 {
-                    float dx = transform.position.x - set.Key.transform.position.x;
-                    float dy = transform.position.y - set.Key.transform.position.y;
+                    var dx = transform.position.x - set.Key.transform.position.x;
+                    var dy = transform.position.y - set.Key.transform.position.y;
 
-                    set.Value.AddForce(
-                        new Vector2(dx * PullStrenght * Time.deltaTime, dy * PullStrenght * Time.deltaTime),
-                        ForceMode2D.Force);
+                    if (set.Key.gameObject.tag == "Player" && GetComponentInParent<PlanetData>().hasPlayerOnIt())
+                    {
+                        set.Value.AddForce(
+                            new Vector2(dx * (PullStrenght / 3) * Time.deltaTime,
+                                dy * (PullStrenght / 3) * Time.deltaTime),
+                            ForceMode2D.Force);
+                        print("PlayerPower!");
+                    }
+                    else
+                    {
+                        print("full power");
+                        set.Value.AddForce(
+                            new Vector2(dx * PullStrenght * Time.deltaTime, dy * PullStrenght * Time.deltaTime),
+                            ForceMode2D.Force);
+                    }
                 }
                 else
                 {

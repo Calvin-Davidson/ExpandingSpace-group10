@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Items;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Player
 {
     public class PlayerData
     {
-        public PlayerManager playermanager;
         private List<ItemData> inventory;
         private float Lucht = 100;
         private int Health = 2;
@@ -26,6 +26,11 @@ namespace Player
         public void TakeDamage(int value)
         {
             this.Health -= value;
+
+            if (Health < 0)
+            {
+                SceneManager.LoadScene(2);
+            }
         }
 
         public void AddHealth(int value)

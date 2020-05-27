@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player {
-
     public class OnMeteorCollision : MonoBehaviour
     {
         public PlayerManager playermanager;

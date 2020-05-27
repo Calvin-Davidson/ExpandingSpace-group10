@@ -15,6 +15,6 @@ public class CameraFollowPlayer : MonoBehaviour
             transPos.z = transform.position.z;
             transform.position = transPos;
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, playerObj.transform.rotation, 0.6f * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, playerObj.transform.rotation, 0.7f * Time.deltaTime);
     }
 }

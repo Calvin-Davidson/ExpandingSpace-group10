@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Items;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Image = UnityEngine.UI.Image;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -30,7 +33,7 @@ namespace Player
             if (other.gameObject.name == "SPACE_STATION" || other.gameObject.tag == "SPACE_STATION")
             {
                 _playerManager.GetPlayerData().lucht = 100;
-                
+
                 foreach (ItemData itemData in PlayerInventory)
                 {
                     GameObject g = GameObject.Find(itemData.getUIgameobjectName());
@@ -44,8 +47,8 @@ namespace Player
                         Debug.LogWarning("Gameobject not found required name: " + itemData.getUIgameobjectName());
                     }
                 }
-
-                // cleared de PlayerInventory
+                
+                
                 PlayerInventory.Clear();
             }
 
