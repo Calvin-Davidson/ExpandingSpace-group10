@@ -9,6 +9,8 @@ public class CameraFollowPlayer : MonoBehaviour
     [SerializeField] private PlanetGravity _planetGravity;
     
 
+    // Makes the camera follow the player,
+    // and makes the camera rotate.
     private void FixedUpdate()
     {
             Vector3 transPos = playerObj.transform.position;

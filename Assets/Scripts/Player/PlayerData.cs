@@ -16,8 +16,7 @@ namespace Player
         {
             inventory = new List<ItemData>();
         }
-
-
+        
         public List<ItemData> getinventory()
         {
             return this.inventory;

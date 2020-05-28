@@ -24,6 +24,7 @@ namespace Player
             return this._playerData;
         }
 
+        //Checks if you died 
         private IEnumerator Loop()
         {
             yield return new WaitForSeconds(1);

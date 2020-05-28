@@ -6,6 +6,8 @@ namespace Player {
     public class OnMeteorCollision : MonoBehaviour
     {
         public PlayerManager playermanager;
+        
+        // You take damage when hitting a meteoriet
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag == "meteoriet")
