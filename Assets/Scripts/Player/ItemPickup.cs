@@ -8,6 +8,7 @@ namespace Player
     {
         private List<ItemData> playerInventory;
         [SerializeField] private AudioSource PickupSound;
+        [SerializeField] private ParticleSystem _particleSystem;
         private void Start()
         {
             playerInventory = GetComponent<PlayerManager>().GetPlayerData().getinventory();
@@ -23,14 +24,11 @@ namespace Player
                 PickupSound.Play();
                 
                 Destroy(other.gameObject);
-
-                List<string> messages = new List<string>();
-                messages.Add("goed gedaan breng het items snel terug naar het schip!");
-                messages.Add("wouw je hebt een item gevonden, breng hem snel naar het schip");
-                messages.Add("items moeten naar het schip gebracht worden.");
-
-                GameObject.Find("dialog").GetComponent<DialogSystem>()
-                    .Dialog(0, messages[Random.Range(0, messages.Count)]);
+                var particleSpawnSystem = other.gameObject.transform.position;
+                ParticleSystem particleSystem = Instantiate(_particleSystem, particleSpawnSystem, Quaternion.identity);
+                particleSystem.Play();
+                
+                Destroy(particleSystem, 1.5f);
             }
         }
     }

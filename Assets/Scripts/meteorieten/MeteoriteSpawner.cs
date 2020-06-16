@@ -6,6 +6,7 @@ namespace meteorieten
     public class MeteoriteSpawner : MonoBehaviour
     {
         public GameObject[] asteroidObjects;
+        public GameObject[] stalkingAsteriod;
         public GameObject player;
         [SerializeField] private float heightThreshold = 5;
         
@@ -13,10 +14,11 @@ namespace meteorieten
         [SerializeField] private float MaxSize = 1;
         [SerializeField] private float MinSize = 1;
 
+        [SerializeField] private int StalkingSpawnChange = 5;
+
         void Start()
         {
-            
-            StartCoroutine(waiter());
+        StartCoroutine(waiter());
         }
 
         private void spawnMeteor()
@@ -25,8 +27,20 @@ namespace meteorieten
             SpawningPos.x += 125;
             SpawningPos.y += Random.Range(-40, 40);
             SpawningPos.z = 0;
+
+            GameObject spawning;
+            if (Random.Range(0, 100) < StalkingSpawnChange)
+            {
+                spawning = stalkingAsteriod[Random.Range(0, stalkingAsteriod.Length)];
+            }
+            else
+            {
+                spawning = asteroidObjects[Random.Range(0, asteroidObjects.Length)];
+            }
+
+            if (!spawning) return;
             
-            GameObject a = Instantiate(asteroidObjects[Random.Range(0, asteroidObjects.Length)], SpawningPos, Quaternion.identity) as GameObject;
+            GameObject a = Instantiate(spawning, SpawningPos, Quaternion.identity);
             
             float r = Random.Range(MinSize, MaxSize);
             a.transform.localScale = new Vector3(r, r, r);

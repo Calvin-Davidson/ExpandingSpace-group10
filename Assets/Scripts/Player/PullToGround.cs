@@ -18,17 +18,17 @@ namespace Player
 
         private void Update()
         {
-            if (_playerRotator.getLastHit() != Vector2.zero)
+            if (_playerRotator.GetLastHit() != Vector2.zero)
             {
                 if (InAir)
                 {
-                    _PlayerRigid.AddForce(-(new Vector2(transform.position.x - _playerRotator.getLastHit().x,
-                        transform.position.y - _playerRotator.getLastHit().y) * 35));
+                    _PlayerRigid.AddForce(-(new Vector2(transform.position.x - _playerRotator.GetLastHit().x,
+                        transform.position.y - _playerRotator.GetLastHit().y) * 35));
                 }
                 else
                 {
-                    _PlayerRigid.AddForce(-(new Vector2(transform.position.x - _playerRotator.getLastHit().x,
-                        transform.position.y - _playerRotator.getLastHit().y) * 50));
+                    _PlayerRigid.AddForce(-(new Vector2(transform.position.x - _playerRotator.GetLastHit().x,
+                        transform.position.y - _playerRotator.GetLastHit().y) * 50));
                 }
             }
         }

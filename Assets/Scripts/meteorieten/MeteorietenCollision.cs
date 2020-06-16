@@ -6,7 +6,7 @@ namespace meteorieten
     public class MeteorietenCollision : MonoBehaviour
     {
         private Boolean enteredCollision = false;
-        private ParticleSystem ExplosionParticle;
+        [SerializeField] private ParticleSystem ExplosionParticle;
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (enteredCollision) return;

@@ -11,6 +11,7 @@ TagManager:
   - WalkableFloor
   - PlayerInAir
   - Item_Spawn_location
+  - BlackHoleSpawnLocation
   layers:
   - Default
   - TransparentFX

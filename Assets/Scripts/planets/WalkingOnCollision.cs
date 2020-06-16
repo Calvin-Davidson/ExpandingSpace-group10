@@ -18,9 +18,8 @@ public class WalkingOnCollision : MonoBehaviour
         {
             if (other.gameObject.name == "Player" || other.gameObject.tag == "Player")
             {
-                Debug.Log("Collision is terug!");
                 _planetData.setHasPlayerCollision(true);
-            }        
+            }
         }
     }
 
@@ -28,7 +27,6 @@ public class WalkingOnCollision : MonoBehaviour
     {
         if (other.gameObject.name == "Player" || other.gameObject.tag == "Player")
         {
-            Debug.Log("geen collision meer!");
             _planetData.setHasPlayerCollision(false);
         }
     }

@@ -6,6 +6,7 @@ using Random = System.Random;
 
 public class StartScherm_Shipmovement : MonoBehaviour
 {
+    
     [SerializeField] private float speed;
     private RectTransform _transform;
 
@@ -33,5 +34,7 @@ public class StartScherm_Shipmovement : MonoBehaviour
             transform.position =
                 new Vector3(transform.position.x, UnityEngine.Random.Range(0, 300), transform.position.z);
         }
+        
+        
     }
 }

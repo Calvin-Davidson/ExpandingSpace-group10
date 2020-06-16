@@ -10,7 +10,7 @@ namespace Player
     {
         private List<ItemData> inventory;
         private float Lucht = 100;
-        private int Health = 2;
+        private int Health = 3;
 
         public PlayerData()
         {
@@ -26,7 +26,7 @@ namespace Player
         {
             this.Health -= value;
 
-            if (Health < 0)
+            if (Health == 0)
             {
                 SceneManager.LoadScene(2);
             }
@@ -51,7 +51,6 @@ namespace Player
                 {
                     Lucht = value;
                 }
-
                 GameObject.Find("Air_slider").GetComponent<Slider>().value = (float) lucht / 100;
             }
         }

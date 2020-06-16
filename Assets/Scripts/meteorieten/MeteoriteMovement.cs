@@ -9,21 +9,19 @@ namespace meteorieten
         [SerializeField] private float speedX;
         [SerializeField] private float speedY;
 
+        private Rigidbody2D _rigidbody2D;
+
         public ParticleSystem ExplosionParticle;
 
         private void Start()
         {
+            _rigidbody2D = GetComponent<Rigidbody2D>();
+            
             speedX = Random.Range(55, 85);
             speedY = Random.Range(5.5f, 8f);
 
-            Destroy(this.gameObject, 30);
-        }
-        
-
-        void Update()
-        {
-            transform.position = new Vector2(transform.position.x - speedX * Time.deltaTime,
-                transform.position.y - speedY * Time.deltaTime);
+            _rigidbody2D.AddForce(new Vector2(-speedX * 50, -speedY * 50));
+            Destroy(gameObject, 30);
         }
     }
 }

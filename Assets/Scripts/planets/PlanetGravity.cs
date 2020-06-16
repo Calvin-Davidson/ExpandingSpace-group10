@@ -26,11 +26,9 @@ public class PlanetGravity : MonoBehaviour
                             new Vector2(dx * (PullStrenght / 3) * Time.deltaTime,
                                 dy * (PullStrenght / 3) * Time.deltaTime),
                             ForceMode2D.Force);
-                        print("PlayerPower!");
                     }
                     else
                     {
-                        print("full power");
                         set.Value.AddForce(
                             new Vector2(dx * PullStrenght * Time.deltaTime, dy * PullStrenght * Time.deltaTime),
                             ForceMode2D.Force);

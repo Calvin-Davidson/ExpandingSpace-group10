@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -49,7 +50,8 @@ namespace Player
 
             // movement up.
             if (Input.GetKey(KeyCode.W) && Rotated == false)
-                newVel = new Vector2(newVel.x + transform.up.x * speed * 1.3f, newVel.y + transform.up.y * speed * 1.3f);
+                newVel = new Vector2(newVel.x + transform.up.x * speed * 1.3f,
+                    newVel.y + transform.up.y * speed * 1.3f);
 
 
             if (Input.GetKey(KeyCode.A))
@@ -73,41 +75,48 @@ namespace Player
 
             _rigidbody2D.velocity = newVel;
         }
-
+        
+        
         // When in air we need particles. and a bit different movement.
         private void InAirMovement()
         {
-            var newVel = _rigidbody2D.velocity * Time.deltaTime;
+            var newVel = _rigidbody2D.velocity * (0.9f * Time.deltaTime);
 
-            if (Input.GetKey(KeyCode.W) && Rotated == false)
+            // Up
+            if (Input.GetKey(KeyCode.W) && !Rotated)
             {
-                newVel = new Vector2(newVel.x + transform.up.x * speed, newVel.y + transform.up.y * speed);
+                newVel += new Vector2(transform.up.x * speed, transform.up.y * speed);
                 if (!smoke_left_bottom.isPlaying)
                     StartCoroutine(ActivateSmoke(smoke_left_bottom, new KeyCode[] {KeyCode.D, KeyCode.W}));
                 if (!smoke_right_bottom.isPlaying)
                     StartCoroutine(ActivateSmoke(smoke_right_bottom, new KeyCode[] {KeyCode.A, KeyCode.W}));
             }
+            
+            // Down
+            else if (Input.GetKey(KeyCode.S))
+            {
+                newVel += new Vector2(-transform.up.x * speed, -transform.up.y * speed);
+                if (!smoke_left_top.isPlaying)
+                    StartCoroutine(ActivateSmoke(smoke_left_top, new KeyCode[] {KeyCode.S}));
+                if (!smoke_right_top.isPlaying)
+                    StartCoroutine(ActivateSmoke(smoke_right_top, new KeyCode[] {KeyCode.S}));
+            }
 
-            else if (Input.GetKey(KeyCode.A))
+            // Rotation.
+            //Left
+            if (Input.GetKey(KeyCode.A))
             {
                 transform.Rotate(new Vector3(0, 0, 1), 200 * Time.deltaTime);
                 if (!smoke_right_bottom.isPlaying)
                     StartCoroutine(ActivateSmoke(smoke_right_bottom, new KeyCode[] {KeyCode.A, KeyCode.W}));
             }
 
+            //Right
             else if (Input.GetKey(KeyCode.D))
             {
                 transform.Rotate(new Vector3(0, 0, 1), -200 * Time.deltaTime);
                 if (!smoke_left_bottom.isPlaying)
                     StartCoroutine(ActivateSmoke(smoke_left_bottom, new KeyCode[] {KeyCode.D, KeyCode.W}));
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                newVel = new Vector2(newVel.x + -transform.up.x * speed, newVel.y + -transform.up.y * speed);
-                if (!smoke_left_top.isPlaying)
-                    StartCoroutine(ActivateSmoke(smoke_left_top, new KeyCode[] {KeyCode.S}));
-                if (!smoke_right_top.isPlaying)
-                    StartCoroutine(ActivateSmoke(smoke_right_top, new KeyCode[] {KeyCode.S}));
             }
 
             _rigidbody2D.velocity = newVel;
@@ -115,10 +124,10 @@ namespace Player
 
 
         // Removes smoke after ... seconds if you are no longer holding your movement key
-        private IEnumerator ActivateSmoke(ParticleSystem particleSystem, KeyCode[] codes)
+        private IEnumerator ActivateSmoke(ParticleSystem particleSystem, IReadOnlyList<KeyCode> codes)
         {
             if (!particleSystem.isPlaying) particleSystem.Play();
-            
+
             yield return new WaitForSeconds(0.3f);
 
             if (!_pullToGround.getInAir())
@@ -127,16 +136,16 @@ namespace Player
             }
             else
             {
-                bool IsPressed = false;
-                for (var i = 0; i < codes.Length; i++)
+                bool isPressed = false;
+                for (var i = 0; i < codes.Count; i++)
                 {
                     if (Input.GetKey(codes[i]))
                     {
-                        IsPressed = true;
+                        isPressed = true;
                     }
                 }
 
-                if (IsPressed)
+                if (isPressed)
                 {
                     StartCoroutine(ActivateSmoke(particleSystem, codes));
                 }
