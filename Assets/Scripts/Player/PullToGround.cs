@@ -9,6 +9,7 @@ namespace Player
         private Rigidbody2D _PlayerRigid;
 
         [SerializeField] private bool InAir = false;
+        private bool _onGround = false;
 
         private void Start()
         {
@@ -18,17 +19,21 @@ namespace Player
 
         private void Update()
         {
+            if (Input.GetKey(KeyCode.W)) return;
             if (_playerRotator.GetLastHit() != Vector2.zero)
             {
                 if (InAir)
                 {
                     _PlayerRigid.AddForce(-(new Vector2(transform.position.x - _playerRotator.GetLastHit().x,
-                        transform.position.y - _playerRotator.GetLastHit().y) * 35));
+                        transform.position.y - _playerRotator.GetLastHit().y) * 150));
                 }
                 else
                 {
-                    _PlayerRigid.AddForce(-(new Vector2(transform.position.x - _playerRotator.GetLastHit().x,
-                        transform.position.y - _playerRotator.GetLastHit().y) * 50));
+                    if (!_onGround)
+                    {
+                        _PlayerRigid.AddForce(-(new Vector2(transform.position.x - _playerRotator.GetLastHit().x,
+                            transform.position.y - _playerRotator.GetLastHit().y) * 50));
+                    }
                 }
             }
         }
@@ -37,11 +42,13 @@ namespace Player
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.tag == "PlayerInAir") InAir = false;
+            if (other.gameObject.name == "WalkableFloor") _onGround = true;
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.gameObject.tag == "PlayerInAir") InAir = true;
+            if (other.gameObject.name == "WalkableFloor") _onGround = false;
         }
 
         public bool getInAir()

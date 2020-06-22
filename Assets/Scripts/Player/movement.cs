@@ -9,6 +9,8 @@ namespace Player
 {
     public class movement : MonoBehaviour
     {
+        [SerializeField] private Animator _Player_Animator;
+
         [SerializeField] private ParticleSystem smoke_left_bottom;
         [SerializeField] private ParticleSystem smoke_right_bottom;
         [SerializeField] private ParticleSystem smoke_left_top;
@@ -41,6 +43,13 @@ namespace Player
             {
                 onGroundMovement();
             }
+            
+            if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+            {
+                _Player_Animator.SetBool("walk", false);
+                _Player_Animator.SetBool("idle", true);
+            }
+            if (!Input.GetKey(KeyCode.W)) _Player_Animator.SetBool("jump", false);
         }
 
         // When on ground we walk around objects.
@@ -50,15 +59,21 @@ namespace Player
 
             // movement up.
             if (Input.GetKey(KeyCode.W) && Rotated == false)
+            {
                 newVel = new Vector2(newVel.x + transform.up.x * speed * 1.3f,
                     newVel.y + transform.up.y * speed * 1.3f);
-
+                
+                _Player_Animator.SetBool("jump", true);
+                _Player_Animator.SetBool("idle", false);
+            }
 
             if (Input.GetKey(KeyCode.A))
             {
                 newVel = new Vector2(newVel.x + -transform.right.x * speed, newVel.y + -transform.right.y * speed);
                 transform.localScale = new Vector3(-Math.Abs(transform.localScale.x), transform.localScale.y,
                     transform.localScale.z);
+                _Player_Animator.SetBool("walk", true);
+                _Player_Animator.SetBool("idle", false);
             }
 
 
@@ -71,12 +86,16 @@ namespace Player
                 newVel = new Vector2(newVel.x + transform.right.x * speed, newVel.y + transform.right.y * speed);
                 transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y,
                     transform.localScale.z);
+                _Player_Animator.SetBool("walk", true);
+                _Player_Animator.SetBool("idle", false);
             }
+
+
 
             _rigidbody2D.velocity = newVel;
         }
-        
-        
+
+
         // When in air we need particles. and a bit different movement.
         private void InAirMovement()
         {
@@ -85,13 +104,14 @@ namespace Player
             // Up
             if (Input.GetKey(KeyCode.W) && !Rotated)
             {
+                _Player_Animator.SetBool("jump", false);
                 newVel += new Vector2(transform.up.x * speed, transform.up.y * speed);
                 if (!smoke_left_bottom.isPlaying)
                     StartCoroutine(ActivateSmoke(smoke_left_bottom, new KeyCode[] {KeyCode.D, KeyCode.W}));
                 if (!smoke_right_bottom.isPlaying)
                     StartCoroutine(ActivateSmoke(smoke_right_bottom, new KeyCode[] {KeyCode.A, KeyCode.W}));
             }
-            
+
             // Down
             else if (Input.GetKey(KeyCode.S))
             {

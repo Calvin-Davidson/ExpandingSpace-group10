@@ -13,6 +13,7 @@ public class StartScherm_Shipmovement : MonoBehaviour
     private void Start()
     {
         _transform = GetComponent<RectTransform>();
+        
     }
 
 

@@ -14,7 +14,7 @@ namespace meteorieten
             if (ExplosionParticle != null)
             {
                 ParticleSystem g = Instantiate(ExplosionParticle, gameObject.transform.position, Quaternion.identity);
-                Destroy(g, 2.0f);
+                Destroy(g, 1.5f);
             }
             Destroy(gameObject);
         }
@@ -26,7 +26,7 @@ namespace meteorieten
             if (ExplosionParticle != null)
             {
                 ParticleSystem g = Instantiate(ExplosionParticle, gameObject.transform.position, Quaternion.identity);
-                Destroy(g, 2.0f);
+                Destroy(g, 1.5f);
             }
             Destroy(gameObject);
         }
